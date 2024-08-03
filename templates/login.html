@@ -6,15 +6,35 @@
 
 {% block conteudo %}
 
+<form action="{{url_for('autenticar')}}" method="post">
+   <div>
+     <label for="email" class="form-label">email: </label>
+     <input type="text" class="form-control" id="email" name="email" placeholder="Digite seu email">
+   </div>
+   <div>
+     <label for="senha" class="form-label">Senha: </label>
+     <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
+   </div>
+   <button class="btn btn-primary" type="submit">Entrar</button>
+</form>
 
-    <div class="mb-3">
-      <label for="login" class="form-label">Login: </label>
-      <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Digite seu usuário">
-    </div>
-    <div class="mb-3">
-      <label for="senha" class="form-label">Senha: </label>
-      <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
-    </div>
-    <button class="btn btn-primary" type="submit">Entrar</button>
+<!-- <div id="form_fundo">
+   <h1>Login</h1>
+   <div id="form_frente">
+      <form action="/login" id="login" method="get">
+         <label for="email">nome</label>
+         <input type="text" name="email" id="email" required placeholder="Digite seu email"><br>
 
+         <label for="senha">Senha</label>
+         <input type="password" name="senha" id="senha" required placeholder="Digite sua senha"><br>
+
+         <button type="submit" id="btn_login">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>Entrar
+         </button>
+      </form>
+   </div>
+</div> -->
 {% endblock %}
