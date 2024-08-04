@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, redirect, request, url_for
+import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Karol1004"
@@ -15,14 +16,19 @@ def login():
 def autenticar():
     email = request.form['email']
     senha = request.form['senha']
-    if email == 'karol' and senha == 'senha123':
-        flash('Login feito com sucesso, você está logado','sucess')
-        return render_template('/index.html')
-    else:
-        flash('Dados incorretos. Email ou senha inválidos', 'danger')
-        return redirect(url_for('login'))
-    
 
+    con = sqlite3.connect('database.db')
+    cursor = con.cursor()
+    cursor.execute('SELECT * FROM users WHERE email = ?', [email])
+    users = cursor.fetchone()
+    
+    if(users[1] == senha):
+        flash('Logado com sucesso', 'success')
+        return redirect('/')
+
+    if(users[1] != senha):
+        flash('Login ou senha incorretos', 'danger')
+        return redirect(url_for('login'))
 
 @app.route('/doacoes')
 def doacoes():
@@ -33,16 +39,18 @@ def sobre():
     return render_template('sobre.html')
 
 
-@app.route('/cadastro')
+@app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
-    return render_template('cadastro.html')
+    if request.method == 'GET':
+        return render_template('cadastro.html')
+    
+    if request.method=='POST':
+        email = request.form['email']
+        senha = request.form['senha'] 
+        con =  sqlite3.connect('database.db')
+        con.execute('INSERT INTO users (email, password) VALUES (?,?)',(email, senha))
+        con.commit()
+        con.close()
 
-
-
-
-
-
-
-
-
-
+        flash('Cadastrado com sucesso', 'success')
+        return redirect(url_for('login'))
