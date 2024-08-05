@@ -39,6 +39,11 @@ def sobre():
     return render_template('sobre.html')
 
 
+@app.route('contato')
+def contato():
+    return render_template('contato.html')
+
+
 @app.route('/cadastro', methods=['POST', 'GET'])
 def cadastro():
     if request.method == 'GET':
@@ -54,3 +59,4 @@ def cadastro():
 
         flash('Cadastrado com sucesso', 'success')
         return redirect(url_for('login'))
+    
